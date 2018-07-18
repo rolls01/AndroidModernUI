@@ -19,7 +19,50 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/nav_header_main">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <include layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/google_photos"
+                style="@style/nav_drawer_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/google_photos" />
+
+            <include layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/facebook"
+                style="@style/nav_drawer_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/facebook" />
+
+
+            <include layout="@layout/divider" />
+            <TextView
+                android:id="@+id/twitter"
+                style="@style/nav_drawer_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/twitter" />
+
+            <include layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/user_settings"
+                style="@style/nav_drawer_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/user_settings" />
+
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
