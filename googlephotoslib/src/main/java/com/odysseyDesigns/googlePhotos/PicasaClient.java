@@ -51,7 +51,7 @@ public class PicasaClient {
     private static final String SCOPE_PICASA = "https://picasaweb.google.com/data/";
     private static final String BASE_API_URL = "https://picasaweb.google.com/data/feed/api/user/";
 
-    private static final int REQUEST_ACCOUNT_PICKER = 1000;
+    public static final int REQUEST_ACCOUNT_PICKER = 1000;
     private static final int REQUEST_RECOVER_PLAY_SERVICES_ERROR = 1024;
 
     private static PicasaClient picasaClient;
