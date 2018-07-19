@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/google_photos" />
-
             <include layout="@layout/divider" />
+
 
             <TextView
                 android:id="@+id/facebook"
@@ -45,15 +45,14 @@
                 android:layout_height="match_parent"
                 android:text="@string/facebook" />
 
-
             <include layout="@layout/divider" />
+
             <TextView
                 android:id="@+id/twitter"
                 style="@style/nav_drawer_menu_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/twitter" />
-
             <include layout="@layout/divider" />
 
             <TextView
@@ -62,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/user_settings" />
+            <include layout="@layout/divider" />
 
         </LinearLayout>
     </android.support.design.widget.NavigationView>
