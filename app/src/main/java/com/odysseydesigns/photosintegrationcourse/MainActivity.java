@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.odysseyDesigns.googlePhotos.PicasaClient;
+import com.odysseydesigns.photosintegrationcourse.models.GooglePhotosItem;
 import com.odysseydesigns.photosintegrationcourse.models.NavBarItem;
 import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.GooglePhotosFragment;
 
@@ -29,11 +30,13 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private View placeHolderText;
+    private MenuItem accountMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inflateViews();
+        PicasaClient.get().attachActivity(this);
     }
 
     //region Initialize views
@@ -72,8 +75,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -84,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        accountMenu = menu.findItem(R.id.select_account);
+        accountMenu.setVisible(false);
         return true;
     }
 
@@ -95,7 +100,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.select_account) {
+            PicasaClient.get().pickAccount();
             return true;
         }
 
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PicasaClient.REQUEST_ACCOUNT_PICKER){
             handleActivityResult(requestCode, resultCode, data, GooglePhotosFragment.class);
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -124,21 +132,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -148,6 +156,7 @@ public class MainActivity extends AppCompatActivity
             case GOOGLE_PHOTOS:
                 drawer.closeDrawer(GravityCompat.START);
                 displayGooglePhotosFragment();
+                accountMenu.setVisible(true);
                 break;
             case SETTINGS:
                 break;
@@ -160,11 +169,12 @@ public class MainActivity extends AppCompatActivity
 
     private void displayGooglePhotosFragment() {
         setTitle("Google Photos");
-        setFragment(GooglePhotosFragment.newInstance(), "Google Photos");
+        setFragment(GooglePhotosFragment.newInstance(), GooglePhotosFragment.class.getSimpleName());
         placeHolderText.setVisibility(View.INVISIBLE);
     }
     private void setFragment(Fragment fragment, String fragmentName){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, fragment, fragmentName);
+        fragmentManager.beginTransaction().replace(R.id.content_layout, fragment, fragmentName)
+        .commit();
     }
 }

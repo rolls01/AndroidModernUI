@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.odysseyDesigns.googlePhotos.PicasaClient;
 import com.odysseyDesigns.googlePhotos.model.AlbumFeed;
 import com.odysseyDesigns.googlePhotos.model.UserFeed;
 import com.odysseydesigns.photosintegrationcourse.R;
+import com.odysseydesigns.photosintegrationcourse.ui.views.GridRecycleView;
 
 import rx.Completable;
 import rx.CompletableSubscriber;
@@ -33,6 +35,9 @@ public class GooglePhotosFragment extends Fragment {
     private static final String TAG = GooglePhotosFragment.class.getSimpleName();
     private static final String PREF_ACCOUNT = TAG + ".PREF_ACCOUNT";
     private SwipeRefreshLayout refreshLayout;
+    private AlbumGridAdapter albumGridAdapter;
+    private GridRecycleView gridRecycleView;
+    private TextView accountName;
 
     public static GooglePhotosFragment newInstance(){
         GooglePhotosFragment googlePhotosFragment = new GooglePhotosFragment();
@@ -44,12 +49,17 @@ public class GooglePhotosFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//        return inflater.inflate(R.layout.fragment_google_photos, container, false);
         return inflater.inflate(R.layout.fragment_google_photos, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        accountName = (TextView) view.findViewById(R.id.account_name);
+        gridRecycleView = (GridRecycleView) view.findViewById(R.id.photo_grid);
+        albumGridAdapter = new AlbumGridAdapter((AppCompatActivity) getActivity());
+        gridRecycleView.setAdapter(albumGridAdapter);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -125,7 +135,7 @@ public class GooglePhotosFragment extends Fragment {
             }
         }
     }
-    private void loadPhotos(long albunId){
+    public void loadPhotos(long albunId){
         refreshLayout.setRefreshing(true);
         PicasaClient.get().getAlbumFeed(albunId)
                 .toObservable()

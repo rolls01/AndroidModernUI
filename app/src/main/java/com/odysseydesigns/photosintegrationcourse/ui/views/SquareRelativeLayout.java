@@ -1,4 +1,4 @@
-package com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.views;
+package com.odysseydesigns.photosintegrationcourse.ui.views;
 
 import android.content.Context;
 import android.icu.util.Measure;

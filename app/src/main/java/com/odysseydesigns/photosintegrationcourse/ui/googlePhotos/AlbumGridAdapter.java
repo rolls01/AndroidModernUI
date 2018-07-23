@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import com.odysseyDesigns.googlePhotos.model.AlbumEntry;
 import com.odysseyDesigns.googlePhotos.model.PhotoEntry;
 import com.odysseydesigns.photosintegrationcourse.models.GooglePhotosItem;
+import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.viewHolders.AlbumViewHolder;
 import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.viewHolders.BaseViewHolder;
+import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.viewHolders.GooglePhotosViewHolder;
+import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.viewHolders.HeaderViewHolder;
 
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class AlbumGridAdapter extends BaseGridAdapter {
                 return new GooglePhotosViewHolder(appCompatActivity, this, parent);
             case ALBUM_HRADER:
             case PHOTO_HEADER:
-                return new HeaderViewHodler(appCompatActivity, parent);
+                return new HeaderViewHolder(appCompatActivity, parent);
             default:
                 throw new IllegalStateException("Unknown view type: " + viewType);
         }

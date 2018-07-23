@@ -8,18 +8,23 @@
     <TextView
         android:id="@+id/account_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/account_name_text"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
+        android:layout_below="@+id/account_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.odysseydesigns.photosintegrationcourse.ui.views.GridRecyclerView
+        <ca.odysseyDesigns.photosIntegration.ui.googlePhotos.views.GridRecyclerView
             android:id="@+id/photo_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:columnWidth="80dp"
             />
-
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
