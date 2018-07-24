@@ -22,9 +22,8 @@ import com.odysseyDesigns.googlePhotos.PicasaClient;
 import com.odysseyDesigns.googlePhotos.model.AlbumFeed;
 import com.odysseyDesigns.googlePhotos.model.UserFeed;
 import com.odysseydesigns.photosintegrationcourse.R;
-import com.odysseydesigns.photosintegrationcourse.ui.views.GridRecycleView;
+import com.odysseydesigns.photosintegrationcourse.ui.views.GridRecyclerView;
 
-import rx.Completable;
 import rx.CompletableSubscriber;
 import rx.SingleSubscriber;
 import rx.Subscription;
@@ -36,7 +35,7 @@ public class GooglePhotosFragment extends Fragment {
     private static final String PREF_ACCOUNT = TAG + ".PREF_ACCOUNT";
     private SwipeRefreshLayout refreshLayout;
     private AlbumGridAdapter albumGridAdapter;
-    private GridRecycleView gridRecycleView;
+    private GridRecyclerView gridRecycleView;
     private TextView accountName;
 
     public static GooglePhotosFragment newInstance(){
@@ -57,7 +56,7 @@ public class GooglePhotosFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         accountName = (TextView) view.findViewById(R.id.account_name);
-        gridRecycleView = (GridRecycleView) view.findViewById(R.id.photo_grid);
+        gridRecycleView = (GridRecyclerView) view.findViewById(R.id.photo_grid);
         albumGridAdapter = new AlbumGridAdapter((AppCompatActivity) getActivity());
         gridRecycleView.setAdapter(albumGridAdapter);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -187,6 +186,6 @@ public class GooglePhotosFragment extends Fragment {
 
     private void onLoadAlbumFinished(UserFeed userFeed) {
         refreshLayout.setRefreshing(false);
-        
+
     }
 }

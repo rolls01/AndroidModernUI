@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ca.odysseyDesigns.photosIntegration.ui.googlePhotos.views.GridRecyclerView
+        <com.odysseydesigns.photosintegrationcourse.ui.views.GridRecyclerView
             android:id="@+id/photo_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

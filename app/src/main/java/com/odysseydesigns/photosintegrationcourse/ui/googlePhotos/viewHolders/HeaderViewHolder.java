@@ -17,6 +17,7 @@ public class HeaderViewHolder extends BaseViewHolder {
     private AppCompatActivity appCompatActivity;
     public HeaderViewHolder(AppCompatActivity appCompatActivity, ViewGroup parent) {
         super(LayoutInflater.from(appCompatActivity).inflate(R.layout.google_photos_header, parent, false));
+        textView = (TextView) getRootView().findViewById(R.id.label);
     }
 
     @Override

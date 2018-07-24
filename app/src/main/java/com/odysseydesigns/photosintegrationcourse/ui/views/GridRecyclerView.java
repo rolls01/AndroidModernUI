@@ -10,22 +10,22 @@ import android.util.AttributeSet;
 
 import com.odysseydesigns.photosintegrationcourse.models.GooglePhotosItem;
 
-public class GridRecycleView extends RecyclerView {
+public class GridRecyclerView extends RecyclerView {
 
     private int columnWidth = -1;
     private GridLayoutManager manager;
 
-    public GridRecycleView(Context context) {
+    public GridRecyclerView(Context context) {
         super(context);
         initView(context, null);
     }
 
-    public GridRecycleView(Context context, @Nullable AttributeSet attrs) {
+    public GridRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context, attrs);
     }
 
-    public GridRecycleView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public GridRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView(context, attrs);
     }
