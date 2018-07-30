@@ -114,7 +114,7 @@ public class AlbumEntry {
     /**
      * @return Gphoto ID
      */
-    public long getGphotoId() {
+    public long getPhotoId() {
         return Long.parseLong(gphotoId.getBody());
     }
 

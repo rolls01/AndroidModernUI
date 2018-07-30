@@ -17,7 +17,7 @@ public class GphotosClient {
                         long id = -1;
                         for (AlbumEntry entry : userFeed.getAlbumEntries()) {
                             if (entry.getGphotoAlbumType().equals(AlbumEntry.TYPE_GOOGLE_PHOTOS)) {
-                                id = entry.getGphotoId();
+                                id = entry.getPhotoId();
                             }
                         }
 

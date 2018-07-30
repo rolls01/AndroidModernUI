@@ -9,4 +9,7 @@
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="user_settings">User Settings</string>
+    <string name="header">Header</string>
+    <string name="account_name_text">default Account</string>
+    <string name="account_menu_item">Account</string>
 </resources>

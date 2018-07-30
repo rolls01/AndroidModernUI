@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +22,8 @@ import com.odysseyDesigns.googlePhotos.PicasaClient;
 import com.odysseyDesigns.googlePhotos.model.AlbumFeed;
 import com.odysseyDesigns.googlePhotos.model.UserFeed;
 import com.odysseydesigns.photosintegrationcourse.R;
+import com.odysseydesigns.photosintegrationcourse.ui.views.GridRecyclerView;
 
-import rx.Completable;
 import rx.CompletableSubscriber;
 import rx.SingleSubscriber;
 import rx.Subscription;
@@ -33,6 +34,11 @@ public class GooglePhotosFragment extends Fragment {
     private static final String TAG = GooglePhotosFragment.class.getSimpleName();
     private static final String PREF_ACCOUNT = TAG + ".PREF_ACCOUNT";
     private SwipeRefreshLayout refreshLayout;
+    private AlbumGridAdapter albumGridAdapter;
+    private GridRecyclerView gridRecycleView;
+    private TextView accountName;
+    PicasaClient picasaClient;
+
 
     public static GooglePhotosFragment newInstance(){
         GooglePhotosFragment googlePhotosFragment = new GooglePhotosFragment();
@@ -44,12 +50,17 @@ public class GooglePhotosFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//        return inflater.inflate(R.layout.fragment_google_photos, container, false);
         return inflater.inflate(R.layout.fragment_google_photos, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        accountName = (TextView) view.findViewById(R.id.account_name);
+        gridRecycleView = (GridRecyclerView) view.findViewById(R.id.photo_grid);
+        albumGridAdapter = new AlbumGridAdapter((AppCompatActivity) getActivity());
+        gridRecycleView.setAdapter(albumGridAdapter);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -60,12 +71,14 @@ public class GooglePhotosFragment extends Fragment {
                 }
             }
         });
+        checkAccountOrLoadAlbums();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        PicasaClient.get().onActivityResult(requestCode, resultCode, data)
+        picasaClient = PicasaClient.get();
+                picasaClient.onActivityResult(requestCode, resultCode, data)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableSubscriber() {
                     @Override
@@ -76,7 +89,7 @@ public class GooglePhotosFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "failed to get account" + e.getMessage());
+                        Log.e(TAG, "failed to get account: " + e.getMessage());
                         if(e != null)
                             e.printStackTrace();
                     }
@@ -94,6 +107,7 @@ public class GooglePhotosFragment extends Fragment {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(PREF_ACCOUNT, account.name)
                     .apply();
         }
+        accountName.setText(String.format(getString(R.string.account_name_text).toString(), account == null ? "None" : account.name));
     }
 
     private void checkAccountOrLoadAlbums(){
@@ -125,7 +139,7 @@ public class GooglePhotosFragment extends Fragment {
             }
         }
     }
-    private void loadPhotos(long albunId){
+    public void loadPhotos(long albunId){
         refreshLayout.setRefreshing(true);
         PicasaClient.get().getAlbumFeed(albunId)
                 .toObservable()
@@ -143,10 +157,6 @@ public class GooglePhotosFragment extends Fragment {
                         handleError(error);
                     }
                 });
-    }
-
-    private void onLoadPhotosFinished(AlbumFeed albumFeed) {
-        refreshLayout.setRefreshing(false);
     }
 
     private void loadAlbum() {
@@ -177,6 +187,11 @@ public class GooglePhotosFragment extends Fragment {
 
     private void onLoadAlbumFinished(UserFeed userFeed) {
         refreshLayout.setRefreshing(false);
-        
+        albumGridAdapter.setAlbumList(userFeed.getAlbumEntries());
     }
+    private void onLoadPhotosFinished(AlbumFeed albumFeed) {
+        refreshLayout.setRefreshing(false);
+        albumGridAdapter.setPhotosList(albumFeed.getPhotoEntries());
+    }
+
 }
