@@ -28,14 +28,14 @@ public class AlbumGridAdapter extends BaseGridAdapter {
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         GooglePhotosItem.ItemType type = GooglePhotosItem.ItemType.fromViewType(viewType);
         if (type == null)
-            throw new NullPointerException("No ViewHolder fro this type!");
+            throw new NullPointerException("No ViewHolder for this type!");
 
         switch (type) {
             case ALBUM:
                 return new AlbumViewHolder(appCompatActivity, parent);
             case PHOTO:
                 return new GooglePhotosViewHolder(appCompatActivity, this, parent);
-            case ALBUM_HRADER:
+            case ALBUM_HEADER:
             case PHOTO_HEADER:
                 return new HeaderViewHolder(appCompatActivity, parent);
             default:

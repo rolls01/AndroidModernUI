@@ -37,6 +37,8 @@ public class GooglePhotosFragment extends Fragment {
     private AlbumGridAdapter albumGridAdapter;
     private GridRecyclerView gridRecycleView;
     private TextView accountName;
+    PicasaClient picasaClient;
+
 
     public static GooglePhotosFragment newInstance(){
         GooglePhotosFragment googlePhotosFragment = new GooglePhotosFragment();
@@ -69,12 +71,14 @@ public class GooglePhotosFragment extends Fragment {
                 }
             }
         });
+        checkAccountOrLoadAlbums();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        PicasaClient.get().onActivityResult(requestCode, resultCode, data)
+        picasaClient = PicasaClient.get();
+                picasaClient.onActivityResult(requestCode, resultCode, data)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableSubscriber() {
                     @Override
@@ -85,7 +89,7 @@ public class GooglePhotosFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "failed to get account" + e.getMessage());
+                        Log.e(TAG, "failed to get account: " + e.getMessage());
                         if(e != null)
                             e.printStackTrace();
                     }
@@ -103,6 +107,7 @@ public class GooglePhotosFragment extends Fragment {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(PREF_ACCOUNT, account.name)
                     .apply();
         }
+        accountName.setText(String.format(getString(R.string.account_name_text).toString(), account == null ? "None" : account.name));
     }
 
     private void checkAccountOrLoadAlbums(){
@@ -154,10 +159,6 @@ public class GooglePhotosFragment extends Fragment {
                 });
     }
 
-    private void onLoadPhotosFinished(AlbumFeed albumFeed) {
-        refreshLayout.setRefreshing(false);
-    }
-
     private void loadAlbum() {
         refreshLayout.setRefreshing(true);
         PicasaClient.get().getUserFeed()
@@ -186,6 +187,11 @@ public class GooglePhotosFragment extends Fragment {
 
     private void onLoadAlbumFinished(UserFeed userFeed) {
         refreshLayout.setRefreshing(false);
-
+        albumGridAdapter.setAlbumList(userFeed.getAlbumEntries());
     }
+    private void onLoadPhotosFinished(AlbumFeed albumFeed) {
+        refreshLayout.setRefreshing(false);
+        albumGridAdapter.setPhotosList(albumFeed.getPhotoEntries());
+    }
+
 }

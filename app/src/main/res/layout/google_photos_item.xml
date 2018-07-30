@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.GooglePhotosFragment">
-    
+
     <ImageView
         android:id="@+id/thumb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:drawable/alert_light_frame" />
 
 </com.odysseydesigns.photosintegrationcourse.ui.views.SquareRelativeLayout>

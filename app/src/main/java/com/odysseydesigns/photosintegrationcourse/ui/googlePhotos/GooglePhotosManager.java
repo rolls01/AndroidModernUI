@@ -1,11 +1,11 @@
 package com.odysseydesigns.photosintegrationcourse.ui.googlePhotos;
 
-import android.util.Log;
-
 import com.odysseyDesigns.googlePhotos.model.AlbumEntry;
 import com.odysseyDesigns.googlePhotos.model.PhotoEntry;
 import com.odysseydesigns.photosintegrationcourse.models.GooglePhotosItem;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,17 +40,19 @@ public class GooglePhotosManager {
     }
 
     public void setPhotosList(List<PhotoEntry> photoEntries){
-        this.googlePhotosItemList.clear();
+        googlePhotosItemList.clear();
         String header = "";
-        for(PhotoEntry photoEntry: photoEntries){
-            Log.w(TAG, "Date: "+ photoEntry.getGphotoTimestamp());
-            String timestamp = photoEntry.getUpdated().getBody();
-            Log.w(TAG, "timestamp: " + timestamp);
-            if(!header.equals(timestamp)){
-                googlePhotosItemList.add(new GooglePhotosItem(timestamp));
-                header = timestamp;
+        photoEntries.sort((o1, o2) -> o1.getGphotoTimestamp() < o2.getGphotoTimestamp() ? 0 : 1);
+        for(PhotoEntry entry : photoEntries) {
+            Timestamp ts = new Timestamp(entry.getGphotoTimestamp());
+            SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedTime = output.format(ts);
+
+            if(!header.equals(formattedTime)) {
+                googlePhotosItemList.add(new GooglePhotosItem(formattedTime));
+                header = formattedTime;
             }
-            GooglePhotosItem item = new GooglePhotosItem(photoEntry);
+            GooglePhotosItem item = new GooglePhotosItem(entry);
             googlePhotosItemList.add(item);
         }
     }

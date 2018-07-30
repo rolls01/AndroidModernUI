@@ -7,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.odysseyDesigns.googlePhotos.PicasaClient;
-import com.odysseydesigns.photosintegrationcourse.models.GooglePhotosItem;
 import com.odysseydesigns.photosintegrationcourse.models.NavBarItem;
 import com.odysseydesigns.photosintegrationcourse.ui.googlePhotos.GooglePhotosFragment;
 

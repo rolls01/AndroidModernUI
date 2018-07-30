@@ -49,7 +49,6 @@ public class GridRecyclerView extends RecyclerView {
 
     private void initView(Context context, AttributeSet attrs) {
         int columnCount = getColumnCount(context, attrs);
-
         manager = new GridLayoutManager(getContext(), columnCount);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
