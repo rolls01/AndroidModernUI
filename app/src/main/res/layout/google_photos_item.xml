@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.odysseydesigns.photosintegrationcourse.ui.views.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?selectableItemBackground"
     android:theme="@style/Theme.AppCompat"
     android:layout_width="match_parent"
@@ -12,5 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:drawable/alert_light_frame" />
+
+    <com.odysseydesigns.photosintegrationcourse.ui.views.CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:on="check_circle_black"
+        android:visibility="gone"
+        />
 
 </com.odysseydesigns.photosintegrationcourse.ui.views.SquareRelativeLayout>
